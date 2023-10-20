@@ -12,7 +12,8 @@ const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'kirumo'
+    // database: 'kirumo'
+    database: 'kirumo_try'
   });
 
   //mysql 接続失敗時エラー
@@ -26,9 +27,8 @@ const connection = mysql.createConnection({
 
 //getでリクエスト時に処理するコールバック関数指定
 app.get("/", function(req, res){
-    //トップページ → ICカードの読み込み → データに応じて遷移先を変更
-    //登録済み→POST./trying 未登録→POST./signup
-    return res.send("<a href='#'>Hello World!!</a>");
+  res.render('card_reader.ejs');
+  // return res.send("<a href='#'>Hello World!!</a>");
 });
 
 
@@ -37,11 +37,30 @@ app.get("/mysql", function(req, res){
   //GETで取得したカードIDが、データベース上に存在するかを返す
   //存在する場合  　→1を返す ＋ ユーザの詳細情報を返す
   //存在しないばあい→0を返す
+  const idmStr = req.query["idmStr"];
+  var sql = "SELECT * FROM card WHERE card_id = ? LIMIT 1"
+  // SELECT id, CASE WHEN id = 1 THEN 1 ELSE 0 END FROM users WHERE id = ? LIMIT 1
   connection.query(
-      'SELECT * FROM users',
+      // 'SELECT * FROM users',
+      sql, [idmStr],
       (error, results) => {
+        if (error) throw error;
         console.log(results);
-        return res.send("<a href='#'>Hello World!!</a>"+results);
+        // return res.send("<a href='#'>Hello World!!</a>"+results);
+        if(results == "") {
+          var sql_new = "INSERT INTO card (card_id) VALUES (?)"
+          connection.query(
+            sql_new, [idmStr],
+            (error, results) => {
+              if (error) throw error;
+              console.log(results);
+            }
+          )
+            res.render('0.ejs',{usersCard: idmStr, results: results});
+          }
+          else if (results){
+              res.render('1.ejs',{usersCard: idmStr, results: results})
+          }
       //   res.render('hello.ejs');
       }
     );
