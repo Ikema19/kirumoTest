@@ -2,3 +2,5 @@
 test
 
 npm install
+
+.env

@@ -1,24 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>mysqlテスト</title>
+</head>
+<body>
+  <% usersCard = "012E54F0930737AE" %>
+  <p>スキャンされたカード：<%= usersCard %><br>
 
-  <!DOCTYPE html>
-  <html lang="ja">
-  <head>
-    <meta charset="UTF-8">
-    <title>mysqlテスト</title>
-  </head>
-  <body>
-    <% usersCard = "012E54F0930737AE" %>
-    <p>スキャンされたカード：<%= usersCard %><br>
+  <% userTable.forEach((user) => { %>
+      <p><%= user.id %><br>
+          <span><%= user.IDm %></span><br>
+          <span><%= user.createDate %></span><br>
+          <span><%= user.updateDate %></span><br>
+      </p>
+    <% }) %>
 
-    <% userTable.forEach((user) => { %>
-        <p><%= user.id %><br>
-            <span><%= user.IDm %></span><br>
-            <span><%= user.createDate %></span><br>
-            <span><%= user.updateDate %></span><br>
-        </p>
-      <% }) %>
-
-      <!-- カードが一致にある場合→http://localhost:3000/trying -->
-      <!-- カードが一致にない場合→http://localhost:3000/signup -->
-    
-  </body>
-  </html>
+    <!-- カードが一致にある場合→http://localhost:3000/trying -->
+    <!-- カードが一致にない場合→http://localhost:3000/signup -->
+  
+</body>
+</html>
