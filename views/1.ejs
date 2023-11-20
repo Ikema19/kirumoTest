@@ -2,17 +2,21 @@
   <html lang="ja">
   <head>
     <meta charset="UTF-8">
-    <title>mysqlテスト</title>
+    <title>postgreSQLテスト</title>
   </head>
   <body>
     <p>ユーザー情報登録済み！</p>
-    <p>スキャンされたカード：<%= usersCard %><br>
     
     <ul>
-      <li><%= "id :" + results[0].id %></li>
-      <li><%= "card_id :" + results[0].card_id %></li>
+      <li><%= "card_id :" + card_id %></li>
+      <li><%= "user_id :" + user_id %></li>
+      <li><%= "card_number :" + card_number %></li>
+      <li><%= "expiration_date :" + expiration_date %></li>
+      <li><%= "update_date :" + update_date %></li>
     </ul>
 
+    <a href="../">戻る</a>
+    
       <!-- カードが一致にある場合→http://localhost:3000/trying -->
       <!-- カードが一致にない場合→http://localhost:3000/signup -->
     
