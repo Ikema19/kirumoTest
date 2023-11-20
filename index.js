@@ -89,13 +89,18 @@ app.post("/signup", function(req, res){
   const s_size = req.body.s_size;
   
   //！！記述ルール変更
-  connection.query(
+  pool.query(
     // データベースに登録
-    'INSERT INTO user_info (gender,color,clothes_size,shoes_size) VALUE ("'+ gender +'","'+ color +'","'+ c_size +'","'+ s_size +'");',
+    'INSERT INTO user_info (gender,color,clothes_size,shoes_size) VALUES (\''+ gender +'\',\''+ color +'\',\''+ c_size +'\',\''+ s_size +'\');',
     (error, results) => {
-      console.log(results);
-      return res.send("<a href='#'>Hello World!!</a>"+results);
-    //   res.render('hello.ejs');
+      if (error) {
+        //エラーのときのメッセージ
+        console.error('Error executing query', error);
+        res.status(500).json({ error: 'An error occurred', details: error.message });
+      } else {
+        // クエリ結果をJSON形式でクライアントに返す
+        res.json(results.rows);
+      }
     }
   );
 });
@@ -113,9 +118,9 @@ app.post("/task", function(req, res){
   console.log(task)
   
   //！！記述ルール変更
-  connection.query(
+  pool.query(
     // データベースに登録
-    'INSERT INTO store_tasks (store_id,room_id,task_description) VALUE ("'+ store_id +'","'+ room_id +'",\''+ task +'\');',
+    'INSERT INTO store_tasks (store_id,room_id,task_description) VALUES (\''+ store_id +'\',\''+ room_id +'\',\''+ task +'\');',
     (error, results) => {
       console.log(results);
       return res.send("<a href='#'>Hello World!!</a>"+results);
