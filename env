@@ -1,5 +1,0 @@
-DB_USER = kirumo
-DB_HOST = dpg-cl09ib237rbc738kmpsg-a.oregon-postgres.render.com
-DB_DATABASE = kirumo
-DB_PASSWORD = rUT0ctuPLQOFupoZTjxRUVn0blp7gnSp
-DB_PORT = 5432
