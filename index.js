@@ -23,7 +23,7 @@ const pool = new Pool({
 });
 
 app.get("/", function(req, res){
-  res.render('card_reader.ejs');
+  res.render('card_reader.ejs'); //本来のやつ
 });
 
 //【POSTGRESQL接続サンプル】
@@ -41,39 +41,38 @@ app.get("/pg", (req, res) => {
 });
 
 //----FORD-------------------------------------------------------------
-app.get("/mysql", function(req, res){
-  //GET?~~~
-  //GETで取得したカードIDが、データベース上に存在するかを返す
-  //存在する場合  　→1を返す ＋ ユーザの詳細情報を返す
-  //存在しないばあい→0を返す
-  const idmStr = req.query["idmStr"];
-  var sql = "SELECT * FROM card WHERE card_id = ? LIMIT 1"
-  // SELECT id, CASE WHEN id = 1 THEN 1 ELSE 0 END FROM users WHERE id = ? LIMIT 1
-  connection.query(
-      // 'SELECT * FROM users',
-      sql, [idmStr],
+app.post("/exist", function(req, res){
+  const idmStr = req.body.idmStr; //本来のやつ
+  console.log("---------------idmStr-----------------\n"+idmStr);
+  var sql = "SELECT EXISTS (SELECT * FROM user_cards WHERE card_number = $1)"
+  pool.query(
+      sql, [idmStr], //本来のやつ
       (error, results) => {
         if (error) throw error;
-        console.log(results);
-        // return res.send("<a href='#'>Hello World!!</a>"+results);
-        if(results == "") {
-          var sql_new = "INSERT INTO card (card_id) VALUES (?)"
-          connection.query(
-            sql_new, [idmStr],
-            (error, results) => {
+        console.log("---------------SELECT EXIST-----------------\n"+JSON.stringify(results));
+        if(!results.rows) {
+          res.render('0.ejs',{card_number: idmStr});
+        }
+        else if (results.rows){
+          var sql_1 = "SELECT * FROM user_cards WHERE card_number = $1"
+          pool.query(
+            sql_1, [idmStr], //本来のやつ
+            (error, results_1) => {
               if (error) throw error;
-              console.log(results);
+              console.log("---------------card_info-----------------\n"+JSON.stringify(results_1));
+              console.log("---------------card_number-----------------\n"+JSON.stringify(results_1.rows[0].card_number));
+              res.render('1.ejs',{
+                card_id: results_1.rows[0].card_id,
+                user_id: results_1.rows[0].user_id,
+                card_number: results_1.rows[0].card_number,
+                expiration_date: results_1.rows[0].expiration_date,
+                update_date: results_1.rows[0].update_date
+              })
             }
           )
-            res.render('0.ejs',{usersCard: idmStr, results: results});
-          }
-          else if (results){
-              res.render('1.ejs',{usersCard: idmStr, results: results})
-          }
-      //   res.render('hello.ejs');
+        }
       }
     );
-  
 });
 
 

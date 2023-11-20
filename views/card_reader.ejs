@@ -192,8 +192,8 @@ async function session(device) {
     var form = document.createElement('form');
     var request = document.createElement('input');
 
-    form.method = 'GET';
-    form.action = './mysql';
+    form.method = 'POST';
+    form.action = './exist';
 
     request.type = 'hidden';
     request.name = 'idmStr';
