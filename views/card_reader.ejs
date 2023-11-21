@@ -175,7 +175,7 @@ async function session(device) {
   // Level 9:nfc.clf.transport:<<< 0000ff00ff00
   await receive(device, 6);
   // Level 9:nfc.clf.transport:<<< 0000ffffff1b00e5d70500000000081401000000000000000000000000000000000000f700
-  let idm = (await receive(device, 37)).slice(17, 24);
+  let idm = (await receive(device, 37)).slice(17, 25);
   if (idm.length > 0) {
     let idmStr = '';
     for (let i = 0; i < idm.length; i++) {
