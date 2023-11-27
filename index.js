@@ -50,10 +50,10 @@ app.post("/exist", function(req, res){
       (error, results) => {
         if (error) throw error;
         console.log("---------------SELECT EXIST-----------------\n"+JSON.stringify(results));
-        if(!results.rows) {
+        if(results.rows[0].exists == false) {
           res.render('0.ejs',{card_number: idmStr});
         }
-        else if (results.rows){
+        else if (results.rows[0].exists == true){
           var sql_1 = "SELECT * FROM user_cards WHERE card_number = $1"
           pool.query(
             sql_1, [idmStr], //本来のやつ
