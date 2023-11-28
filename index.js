@@ -47,22 +47,22 @@ app.get("/list", (req, res) => {
   const tagsStr = req.query["tags"];
   switch(tagsStr){
     case 'recommend':
-      SQL = "SELECT * FROM datas";
+      SQL = "SELECT * FROM clothes_data";
       break;
     case 'outer':
-      SQL = "SELECT * FROM datas WHERE cloth_type = 'ショートコート'";
+      SQL = "SELECT * FROM clothes_data WHERE cloth_type = 'ショートコート'";
       break;
     case 'tops':
-      SQL = "SELECT * FROM datas WHERE cloth_type = 'トップス'";
+      SQL = "SELECT * FROM clothes_data WHERE cloth_type = 'トップス'";
       break;
     case 'bottoms':
-      SQL = "SELECT * FROM datas WHERE cloth_type = 'ズボン'";
+      SQL = "SELECT * FROM clothes_data WHERE cloth_type = 'ズボン'";
       break;
     case 'shoes':
-      SQL = "SELECT * FROM datas WHERE cloth_type = '靴'";
+      SQL = "SELECT * FROM clothes_data WHERE cloth_type = '靴'";
       break;
     default:
-      SQL = "SELECT * FROM datas";
+      SQL = "SELECT * FROM clothes_data";
       break;
   }
 
