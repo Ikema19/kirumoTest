@@ -167,6 +167,25 @@ app.post("/task", function(req, res){
   );
 });
 
+// タスク取得
+app.get("/storetask", function(req, res){
+
+  pool.query(
+    // データベースから取得
+    'SELECT * FROM public.store_tasks;',
+    (error, results) => {
+      if (error) {
+        //エラーのときのメッセージ
+        console.error('Error executing query', error);
+        res.status(500).json({ error: 'An error occurred', details: error.message });
+      } else {
+        // クエリ結果をJSON形式でクライアントに返す
+        res.json(results.rows);
+      }
+    }
+  );
+});
+
 app.get("/form", function(req, res){
       res.render('form.ejs');
 });
