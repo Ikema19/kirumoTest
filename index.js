@@ -214,7 +214,7 @@ app.get("/task", function(req, res){
 
 
 
-app.get("/list", (req, res) => {
+app.get("/detail", (req, res) => {
   const id = req.query["id"];
 
   if (id) {
