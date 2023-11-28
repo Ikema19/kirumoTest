@@ -125,11 +125,12 @@ app.post("/signup", function(req, res){
   const color = req.body.color;
   const c_size = req.body.c_size;
   const s_size = req.body.s_size;
+  const sign_card_id = req.body.testid;
   
   //！！記述ルール変更
   pool.query(
     // データベースに登録
-    'INSERT INTO user_info (gender,color,clothes_size,shoes_size) VALUES (\''+ gender +'\',\''+ color +'\',\''+ c_size +'\',\''+ s_size +'\');',
+    'INSERT INTO user_info (gender,color,clothes_size,shoes_size,card_id) VALUES (\''+ gender +'\',\''+ color +'\',\''+ c_size +'\',\''+ s_size +'\',\''+ sign_card_id +'\');',
     (error, results) => {
       if (error) {
         //エラーのときのメッセージ
