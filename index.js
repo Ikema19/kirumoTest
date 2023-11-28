@@ -40,6 +40,45 @@ app.get("/pg", (req, res) => {
   });
 });
 
+
+//----MASA-------------------------------------------------------------
+app.get("/list", (req, res) => {
+  //get tags=の値で変化
+  const tagsStr = req.query["tags"];
+  switch(tagsStr){
+    case 'recommend':
+      SQL = "SELECT * FROM datas";
+      break;
+    case 'outer':
+      SQL = "SELECT * FROM datas WHERE cloth_type = 'ショートコート'";
+      break;
+    case 'tops':
+      SQL = "SELECT * FROM datas WHERE cloth_type = 'トップス'";
+      break;
+    case 'bottoms':
+      SQL = "SELECT * FROM datas WHERE cloth_type = 'ズボン'";
+      break;
+    case 'shoes':
+      SQL = "SELECT * FROM datas WHERE cloth_type = '靴'";
+      break;
+    default:
+      SQL = "SELECT * FROM datas";
+      break;
+  }
+
+  pool.query(SQL, (error, results) => {
+    if (error) {
+      //エラーのときのメッセージ
+      console.error('Error executing query', error);
+      res.status(500).json({ error: 'An error occurred', details: error.message });
+    } else {
+      // クエリ結果をJSON形式でクライアントに返す
+      res.json(results.rows);
+    }
+  });
+});
+
+
 //----FORD-------------------------------------------------------------
 app.post("/exist", function(req, res){
   const idmStr = req.body.idmStr; //本来のやつ
