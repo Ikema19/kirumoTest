@@ -195,6 +195,71 @@ app.get("/task", function(req, res){
   res.render('task.ejs');
 });
 
+//----RYU----------------------------------------------------------------
+
+
+// app.get("/detail", function(req, res){
+//   pool.query('SELECT * FROM datas', (error, results) => {
+//     if (error) {
+//       //エラーのときのメッセージ
+//       console.error('Error executing query', error);
+//       res.status(500).json({ error: 'An error occurred', details: error.message });
+//     } else {
+//       // クエリ結果をJSON形式でクライアントに返す
+//       res.json(results.rows);
+//     }
+//   });
+// });
+
+
+
+
+app.get("/list", (req, res) => {
+  const id = req.query["id"];
+
+  if (id) {
+    // もしIDが提供されている場合、そのIDに対応するデータを取得します
+    const SQL = "SELECT * FROM clothes_data WHERE id = $1";
+    const values = [id];
+
+    pool.query(SQL, values, (error, results) => {
+      if (error) {
+        console.error('クエリの実行エラー', error);
+        res.status(500).json({ error: 'エラーが発生しました', details: error.message });
+      } else {
+        if (results.rows.length === 0) {
+          // 提供されたIDに対応するデータが見つからない場合
+          res.status(404).json({ error: '見つかりません', details: '指定されたIDに対応するデータが見つかりませんでした' });
+        } else {
+          // 指定されたIDのデータをJSON形式で返します
+          res.json(results.rows[0]);
+        }
+      }
+    });
+  } else {
+    // もしIDが提供されていない場合、すべてのデータを取得します
+    const SQL = "SELECT * FROM clothes_data";
+
+    pool.query(SQL, (error, results) => {
+      if (error) {
+        console.error('クエリの実行エラー', error);
+        res.status(500).json({ error: 'エラーが発生しました', details: error.message });
+      } else {
+        // すべてのデータをJSON形式で返します
+        res.json(results.rows);
+      }
+    });
+  }
+});
+
+
+
+
+
+
+
+//------------------------------------------------------------------
+
 //サーバの設定
 const server = http.createServer(app);
 server.listen(3000);
