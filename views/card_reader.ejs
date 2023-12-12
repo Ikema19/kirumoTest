@@ -33,9 +33,10 @@ For more information, please refer to <https://unlicense.org>
     <title>WebUSBでFeliCaリーダーにかざしたFeliCaのIDmを表示</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.30/css/uikit.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <div class="uk-navbar-container uk-margin">
+    <!-- <div class="uk-navbar-container uk-margin">
       <div class="uk-container uk-container-expand">
         <div class="uk-navbar">
           <div class="uk-navbar-left">
@@ -43,13 +44,15 @@ For more information, please refer to <https://unlicense.org>
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="uk-container">
-      <div class="uk-margin">
+      <!-- <div class="uk-margin">
         USB接続のFeliCaリーダー経由でFeliCaのIDmを読み、表示します。
         <span class="uk-text-danger">注意：チャージ済みだったり、オートチャージが有効なカードでは絶対に実験しないでください。勝手に決済が発生してお金が無くなっても責任はとれません。</span>
+      </div> -->
+      <div class="centering_parent">
+        <button id="start" class="uk-button uk-button-large uk-button-default uk-width-1-1 uk-text-capitalize centering_item">はじめる</button>
       </div>
-      <button id="start" class="uk-button uk-button-large uk-button-default uk-width-1-1 uk-text-capitalize">FeliCaリーダーに接続</button>
       <div id="waiting" class="uk-margin" style="display: none;">
         <button class="uk-button uk-button-large uk-button-default uk-width-1-1" disabled>
           <span uk-spinner="" class="uk-spinner uk-icon">
@@ -57,7 +60,7 @@ For more information, please refer to <https://unlicense.org>
               <circle fill="none" stroke="#000" cx="15" cy="15" r="14"></circle>
             </svg>
           </span>
-          FeliCaリーダーにカードをかざしてください
+          カードをかざしてください
         </button>
       </div>
       <div id="idm" class="uk-alert uk-alert-success uk-text-center" uk-alert style="display: none;"></div>

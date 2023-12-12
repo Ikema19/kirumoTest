@@ -14,6 +14,9 @@ const PORT = process.env.PORT || 3001;
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended:false}));
 
+//Link(css img)
+app.use(express.static('link'))
+
 //POSTGRESQL
 const { Pool } = require("pg");
 const pool = new Pool({
