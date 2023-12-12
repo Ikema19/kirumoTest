@@ -14,9 +14,6 @@ const PORT = process.env.PORT || 3001;
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended:false}));
 
-//Link(css img)
-app.use(express.static('link'))
-
 //POSTGRESQL
 const { Pool } = require("pg");
 const pool = new Pool({
@@ -48,12 +45,11 @@ app.get("/pg", (req, res) => {
   });
 });
 
-
-//----MASA-------------------------------------------------------------
-app.get("/list", (req, res) => {
+app.get("/listGen", (req, res)=>{
+  const card_id = req.query["cardid"];
   let SQL;
   // 仮ID
-  const list_card_id = "123A";
+  const list_card_id = card_id;
   // ユーザーの性別取得
   let list_gender = "";
   pool.query(
@@ -90,6 +86,12 @@ app.get("/list", (req, res) => {
           res.json(results.rows);
         }
       });
+  });
+});
+
+
+//----MASA-------------------------------------------------------------
+app.get("/list", (req, res) => {
   //get tags=の値で変化
   const tagsStr = req.query["tags"];
   switch(tagsStr){
@@ -97,7 +99,7 @@ app.get("/list", (req, res) => {
       SQL = "SELECT * FROM clothes_data";
       break;
     case 'outer':
-      SQL = "SELECT * FROM clothes_data WHERE cloth_type = 'ショートコート' ||";
+      SQL = "SELECT * FROM clothes_data WHERE cloth_type = 'ショートコート'";
       break;
     case 'tops':
       SQL = "SELECT * FROM clothes_data WHERE cloth_type = 'トップス'";
@@ -167,7 +169,7 @@ app.get("/list", (req, res) => {
       // クエリ結果をJSON形式でクライアントに返す
       res.json(results.rows);
     }
-  );
+  });
 });
 
 
