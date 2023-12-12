@@ -51,6 +51,45 @@ app.get("/pg", (req, res) => {
 
 //----MASA-------------------------------------------------------------
 app.get("/list", (req, res) => {
+  let SQL;
+  // 仮ID
+  const list_card_id = "123A";
+  // ユーザーの性別取得
+  let list_gender = "";
+  pool.query(
+    'SELECT gender FROM user_info WHERE card_id = \''+ list_card_id +'\';',
+    (error, results) => {
+      if (error) {
+        //エラーのときのメッセージ
+        console.error('Error executing query', error);
+        res.status(500).json({ error: 'An error occurred', details: error.message });
+      } else {
+        // 取得した性別をlist_genderに代入
+        list_gender = results.rows[0].gender;
+      }
+      // 性別に応じた服のデータ取得
+      switch(list_gender){
+        case '男性':
+          SQL = "SELECT * FROM clothes_data WHERE cloth_gen = '男性' OR cloth_gen = 'どっちも'";
+          break;
+        case '女性':
+          SQL = "SELECT * FROM clothes_data WHERE cloth_gen = '女性' OR cloth_gen = 'どっちも'";
+          break;
+
+        default:
+          SQL = "SELECT * FROM clothes_data";
+          break;
+      }
+      pool.query(SQL, (error, results) => {
+        if (error) {
+          //エラーのときのメッセージ
+          console.error('Error executing query', error);
+          res.status(500).json({ error: 'An error occurred', details: error.message });
+        } else {
+          // クエリ結果をJSON形式でクライアントに返す
+          res.json(results.rows);
+        }
+      });
   //get tags=の値で変化
   const tagsStr = req.query["tags"];
   switch(tagsStr){
@@ -128,7 +167,7 @@ app.get("/list", (req, res) => {
       // クエリ結果をJSON形式でクライアントに返す
       res.json(results.rows);
     }
-  });
+  );
 });
 
 
