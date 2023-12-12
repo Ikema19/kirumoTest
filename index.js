@@ -5,9 +5,17 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 
+// CORS middleware
+const cors = require('cors');
+app.use(cors());
+const PORT = process.env.PORT || 3001;
+
 //BODYPARSER
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended:false}));
+
+//Link(css img)
+app.use(express.static('link'))
 
 //POSTGRESQL
 const { Pool } = require("pg");
@@ -82,6 +90,82 @@ app.get("/list", (req, res) => {
           res.json(results.rows);
         }
       });
+  //get tags=の値で変化
+  const tagsStr = req.query["tags"];
+  switch(tagsStr){
+    case 'recommend':
+      SQL = "SELECT * FROM clothes_data";
+      break;
+    case 'outer':
+      SQL = "SELECT * FROM clothes_data WHERE cloth_type = 'ショートコート' ||";
+      break;
+    case 'tops':
+      SQL = "SELECT * FROM clothes_data WHERE cloth_type = 'トップス'";
+      break;
+    case 'bottoms':
+      SQL = "SELECT * FROM clothes_data WHERE cloth_type = 'ズボン'";
+      break;
+    case 'shoes':
+      SQL = "SELECT * FROM clothes_data WHERE cloth_type = '靴'";
+      break;
+    default:
+      SQL = "SELECT * FROM clothes_data";
+      break;
+  }
+  
+  const searchStr = req.query["search"];
+  const price1Str = req.query["price1"];//下限
+  const price2Str = req.query["price2"];//上限
+  const sizeStr = req.query["size"];
+  const genreStr = req.query["genre"];
+  let dataChecker = 0; 
+  if(typeof (searchStr) ||typeof (price1Str) ||typeof (sizeStr) ||typeof (genreStr) ){
+    if(searchStr != undefined){
+      SQL = SQL+" cloth_name ~ '"+searchStr+"'";
+      dataChecker = dataChecker + 1; 
+    }
+
+    if(price1Str != undefined){
+      if(dataChecker != 0){
+        SQL = SQL+" AND "
+      }else{
+        SQL = SQL+" WHERE";
+      }
+      SQL = SQL+" price >= "+price1Str+" AND price <= "+price2Str+"";
+      dataChecker = dataChecker + 1; 
+    }
+
+    if(sizeStr != undefined){
+      if(dataChecker != 0){
+        SQL = SQL+" AND "
+      }else{
+        SQL = SQL+" WHERE";
+      }
+      SQL = SQL+" cloth_size ~ '"+sizeStr+"'";
+      dataChecker = dataChecker + 1; 
+    }
+    
+    if(genreStr != undefined){
+      if(dataChecker != 0){
+        SQL = SQL+" AND "
+      }else{
+        SQL = SQL+" WHERE";
+      }
+      SQL = SQL+" cloth_genre ~ '"+genreStr+"'";
+      dataChecker = dataChecker + 1; 
+    }
+    
+    console.log(SQL);
+  }
+
+  pool.query(SQL, (error, results) => {
+    if (error) {
+      //エラーのときのメッセージ
+      console.error('Error executing query', error);
+      res.status(500).json({ error: 'An error occurred', details: error.message });
+    } else {
+      // クエリ結果をJSON形式でクライアントに返す
+      res.json(results.rows);
     }
   );
 });
@@ -269,6 +353,6 @@ app.get("/detail", (req, res) => {
 //------------------------------------------------------------------
 
 //サーバの設定
-const server = http.createServer(app);
-server.listen(3000);
-console.log("http://localhost:3000");
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});

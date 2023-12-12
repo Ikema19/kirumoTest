@@ -5,20 +5,33 @@
     <title>postgreSQLテスト</title>
   </head>
   <body>
-    <p>ユーザー情報登録済み！</p>
     
-    <ul>
+    <!-- <ul>
       <li><%= "card_id :" + card_id %></li>
       <li><%= "user_id :" + user_id %></li>
       <li><%= "card_number :" + card_number %></li>
       <li><%= "expiration_date :" + expiration_date %></li>
       <li><%= "update_date :" + update_date %></li>
-    </ul>
+    </ul> -->
+    <p id="idm" style="display: none;"><%= card_number %></p>
+    
+    <script type="text/javascript">
+      let idmStr = document.getElementById('idm');
+      // post送信
+      var form = document.createElement('form');
+      var request = document.createElement('input');
 
-    <a href="../">戻る</a>
-    
-      <!-- カードが一致にある場合→http://localhost:3000/trying -->
-      <!-- カードが一致にない場合→http://localhost:3000/signup -->
-    
+      form.method = 'POST';
+      form.action = 'https://kirumo.onrender.com/list';
+
+      request.type = 'hidden';
+      request.name = 'idmStr';
+      request.value = idmStr;
+
+      form.appendChild(request);
+      document.body.appendChild(form);
+
+      form.submit();
+    </script>
   </body>
   </html>
