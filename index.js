@@ -219,7 +219,7 @@ app.post("/signup", function(req, res){
   const color = req.body.color;
   const c_size = req.body.c_size;
   const s_size = req.body.s_size;
-  const sign_card_id = req.body.testid;
+  const sign_card_id = req.body.cardid;
   
   //！！記述ルール変更
   pool.query(
