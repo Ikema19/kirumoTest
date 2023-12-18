@@ -8,17 +8,24 @@
   <p id="idm" style="display: none;"><%= card_number %></p><br>
 
   <script type="text/javascript">
-    let idmStr = document.getElementById('idm');
-    // post送信
+    // let cardNumber = 1111;
+    let cardNumber = document.getElementById('idm').innerText;
+    // LocalStorageにCardNumberを保存
+    // localStorage.setItem('cardNumber', cardNumber);
+    // localStorage.saveKey = "cardNumber";
+
+
     var form = document.createElement('form');
     var request = document.createElement('input');
 
-    form.method = 'POST';
-    form.action = 'https://kirumo.onrender.com/signup';
+    // // GET送信
+    form.method = 'GET';
+    form.action = './form?cardNum='+cardNumber;
+    // form.action = 'https://kirumo-f.vercel.app/sign-up';
 
     request.type = 'hidden';
-    request.name = 'idmStr';
-    request.value = idmStr;
+    request.name = 'cardNumber';
+    request.value = cardNumber;
 
     form.appendChild(request);
     document.body.appendChild(form);
