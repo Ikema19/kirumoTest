@@ -6,12 +6,17 @@
     <title>Document</title>
 </head>
 <body>
-
+    <p id="idm" style="display: none;"><%= cardNumber %></p><br>
+<script>
+    let cardNumber = document.getElementById('idm').innerText;
+    console.log("mmmmmmmm"+cardNumber)
+</script>
     <form action="./signup" method="post">
         <label>性別<input type="text" name="gender"></label>
         <label>色<input type="text" name="color"></label>
         <label>服のサイズ<input type="text" name="c_size"></label>
         <label>靴のサイズ<input type="text" name="s_size"></label>
+        <input type="text" name="cardNum" value=<%= cardNumber %>>
         <input type="submit" value="送信">
     </form>
     

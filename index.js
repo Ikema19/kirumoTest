@@ -85,10 +85,26 @@ app.post("/exist", function(req, res){
 app.post("/signup", function(req, res){
 
   // データ受け取り
+  // const gender = req.body.gender;
+  // const color = req.body.color;
+  // //tuika↓
+  // const category = req.body.category;
+  // //tuika↑
+  // const c_size = req.body.c_size;
+  // const s_size = req.body.s_size;
+
+  // データ受け取り
   const gender = req.body.gender;
   const color = req.body.color;
+  //tuika↓
+  // const category = req.body.category;
+  //tuika↑
   const c_size = req.body.c_size;
   const s_size = req.body.s_size;
+  //tuika↓
+  // var cardNumber = localStorage.getItem('cardNumber');
+  // var cardNumber = localStorage.saveKey;
+  //tuika↑
   
   //！！記述ルール変更
   connection.query(
@@ -96,8 +112,8 @@ app.post("/signup", function(req, res){
     'INSERT INTO user_info (gender,color,clothes_size,shoes_size) VALUE ("'+ gender +'","'+ color +'","'+ c_size +'","'+ s_size +'");',
     (error, results) => {
       console.log(results);
-      return res.send("<a href='#'>Hello World!!</a>"+results);
-    //   res.render('hello.ejs');
+      // return res.send("<a href='#'>Hello World!!</a>"+results);
+      res.render('card_reader.ejs');
     }
   );
 });
@@ -127,7 +143,8 @@ app.post("/task", function(req, res){
 });
 
 app.get("/form", function(req, res){
-      res.render('form.ejs');
+   cardNumber = req.query["cardNumber"];
+      res.render('form.ejs',{cardNumber: cardNumber});
 });
 
 app.get("/task", function(req, res){
