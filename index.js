@@ -233,35 +233,27 @@ app.post("/signup", function(req, res){
   
   pool.query(SQL2, (error, results) => {
     if (error) {
-      //エラーのときのメッセージ
       console.error('Error executing query', error);
-      res.status(500).json({ error: 'An error occurred', details: error.message });
     } else {
     }
   });
-
-  
   //！！記述ルール変更
   pool.query(
     // データベースに登録
     'INSERT INTO user_info (gender,color,clothes_size,shoes_size,card_id) VALUES (\''+ gender +'\',\''+ color +'\',\''+ c_size +'\',\''+ s_size +'\',\''+ sign_card_id +'\');',
     (error, results) => {
-
       console.log(results);
       // return res.send("<a href='#'>Hello World!!</a>"+results);
-      res.render('card_reader.ejs');
-
       if (error) {
         //エラーのときのメッセージ
         console.error('Error executing query', error);
-        res.status(500).json({ error: 'An error occurred', details: error.message });
       } else {
         // クエリ結果をJSON形式でクライアントに返す
-        res.json(results.rows);
       }
-
     }
   );
+  
+  res.render('card_reader.ejs');
 });
 
 // タスク登録
