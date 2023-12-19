@@ -223,29 +223,22 @@ app.post("/exist", function(req, res){
 app.post("/signup", function(req, res){
 
   // データ受け取り
-  // const gender = req.body.gender;
-  // const color = req.body.color;
-  // //tuika↓
-  // const category = req.body.category;
-  // //tuika↑
-  // const c_size = req.body.c_size;
-  // const s_size = req.body.s_size;
-
-  // データ受け取り
   const gender = req.body.gender;
   const color = req.body.color;
-  //tuika↓
-  // const category = req.body.category;
-  //tuika↑
   const c_size = req.body.c_size;
   const s_size = req.body.s_size;
-
-  //tuika↓
-  // var cardNumber = localStorage.getItem('cardNumber');
-  // var cardNumber = localStorage.saveKey;
-  //tuika↑
-
   const sign_card_id = req.body.cardNum;
+
+  const SQL2 = 'INSERT INTO user_cards (card_number) VALUES (\''+ sign_card_id +'\');';
+  
+  pool.query(SQL2, (error, results) => {
+    if (error) {
+      //エラーのときのメッセージ
+      console.error('Error executing query', error);
+      res.status(500).json({ error: 'An error occurred', details: error.message });
+    } else {
+    }
+  });
 
   
   //！！記述ルール変更
