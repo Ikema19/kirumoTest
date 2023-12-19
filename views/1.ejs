@@ -16,13 +16,13 @@
     <p id="idm" style="display: none;"><%= card_number %></p>
     
     <script type="text/javascript">
-      let idmStr = document.getElementById('idm');
+      let idmStr = document.getElementById('idm').innerText;
       // post送信
       var form = document.createElement('form');
       var request = document.createElement('input');
 
-      form.method = 'POST';
-      form.action = 'https://kirumo.onrender.com/list';
+      form.method = 'GET';
+      form.action = 'https://kirumo-f.vercel.app/clothes-list?cardid='+idmStr;
 
       request.type = 'hidden';
       request.name = 'idmStr';
