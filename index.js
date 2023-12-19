@@ -245,7 +245,7 @@ app.post("/signup", function(req, res){
   // var cardNumber = localStorage.saveKey;
   //tuika↑
 
-  const sign_card_id = req.body.cardid;
+  const sign_card_id = req.body.cardNum;
 
   
   //！！記述ルール変更
