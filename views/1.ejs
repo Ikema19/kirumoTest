@@ -22,10 +22,10 @@
       var request = document.createElement('input');
 
       form.method = 'GET';
-      form.action = 'https://kirumo-f.vercel.app/clothes-list?cardid='+idmStr;
+      form.action = 'https://kirumo-f.vercel.app/clothes-list';
 
       request.type = 'hidden';
-      request.name = 'idmStr';
+      request.name = 'cardid';
       request.value = idmStr;
 
       form.appendChild(request);
